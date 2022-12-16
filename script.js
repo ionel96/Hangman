@@ -1,20 +1,22 @@
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
-ctx.fillRect(0,280,400,15);
-ctx.beginPath();
-ctx.lineWidth = 8;
-ctx.lineCap = "butt";
-ctx.moveTo(100,76);
-ctx.lineTo(100,290);
-ctx.moveTo(100,80);
-ctx.lineTo(210,80);
-ctx.moveTo(210,76);
-ctx.lineTo(210,120);
-ctx.moveTo(100,150);
-ctx.lineTo(150,80);
-ctx.stroke();
-
-const array = [];
+let canvas = document.getElementById("myCanvas");
+let ctx = canvas.getContext("2d");
+function drawFrame() {
+    ctx.fillRect(0,280,400,15);
+    ctx.beginPath();
+    ctx.lineWidth = 8;
+    ctx.lineCap = "butt";
+    ctx.moveTo(100,76);
+    ctx.lineTo(100,290);
+    ctx.moveTo(100,80);
+    ctx.lineTo(210,80);
+    ctx.moveTo(210,76);
+    ctx.lineTo(210,120);
+    ctx.moveTo(100,150);
+    ctx.lineTo(150,80);
+    ctx.stroke();
+}
+window.onload = drawFrame;
+let array = [];
 function saveWord(wordEntered) {
     array.push(wordEntered);
     for (let i = 0; i < wordEntered.length; ++i) {
@@ -39,19 +41,27 @@ function saveWord(wordEntered) {
         checkLetter(document.getElementById("letter").value);
     }
 }
-var member = 0, guessedLetters = 0;
+let member = 0, guessedLetters = 0;
 function checkLetter(letterEntered) {
-    ctx.lineWidth = 5;
     letterEntered = letterEntered.toLowerCase();
     if (array[0].indexOf(letterEntered) != -1 && guessedLetters < array[0].length) {
-        --member;
         for (let i = 0; i < array[0].length; ++i) {
             if (array[0][i] == letterEntered) {
                 document.getElementById(letterEntered + i).value = letterEntered.toUpperCase();
                 ++guessedLetters;
             } 
         }
-    } else if (member == 0) {
+    } else {
+        drawLimbs();
+    }
+    if (guessedLetters == array[0].length) {
+        document.getElementById("output").innerHTML = "Congratulations you won! :)";
+        member = 15;
+    }
+}
+function drawLimbs() {
+    ctx.lineWidth = 5;
+    if (member == 0) {
         ctx.beginPath();
         ctx.arc(210, 140, 20, 0, 2 * Math.PI);
     } else if (member == 1) {
@@ -99,10 +109,6 @@ function checkLetter(letterEntered) {
         document.getElementById("output").innerHTML = "You lose! :(";
         guessedLetters += array[0].length + 1;
     } 
-    if (guessedLetters == array[0].length) {
-        document.getElementById("output").innerHTML = "Congratulations you won!";
-        member = 15;
-    }
     ++member;
     ctx.stroke();
 }
