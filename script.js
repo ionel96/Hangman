@@ -1,3 +1,19 @@
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+ctx.fillRect(0,280,400,15);
+ctx.beginPath();
+ctx.lineWidth = 8;
+ctx.lineCap = "butt";
+ctx.moveTo(100,76);
+ctx.lineTo(100,290);
+ctx.moveTo(100,80);
+ctx.lineTo(210,80);
+ctx.moveTo(210,76);
+ctx.lineTo(210,120);
+ctx.moveTo(100,150);
+ctx.lineTo(150,80);
+ctx.stroke();
+
 const array = [];
 function saveWord(wordEntered) {
     array.push(wordEntered);
@@ -23,27 +39,70 @@ function saveWord(wordEntered) {
         checkLetter(document.getElementById("letter").value);
     }
 }
+var member = 0, guessedLetters = 0;
 function checkLetter(letterEntered) {
-    for (let i = 0; i < array.length; ++i) {
-        let c = letterEntered + i;
-        if (c == document.getElementById(c).value) {
-            document.getElementById(c).value = letterEntered;
-        } 
+    ctx.lineWidth = 5;
+    letterEntered = letterEntered.toLowerCase();
+    if (array[0].indexOf(letterEntered) != -1 && guessedLetters < array[0].length) {
+        --member;
+        for (let i = 0; i < array[0].length; ++i) {
+            if (array[0][i] == letterEntered) {
+                document.getElementById(letterEntered + i).value = letterEntered.toUpperCase();
+                ++guessedLetters;
+            } 
+        }
+    } else if (member == 0) {
+        ctx.beginPath();
+        ctx.arc(210, 140, 20, 0, 2 * Math.PI);
+    } else if (member == 1) {
+        ctx.moveTo(210, 160);
+        ctx.lineTo(210, 225);
+    } else if (member == 2) {
+        ctx.moveTo(211, 222);
+        ctx.lineTo(180, 260);
+    } else if (member == 3) {
+        ctx.moveTo(211, 222);
+        ctx.lineTo(240, 260);
+    } else if (member == 4) {
+        ctx.moveTo(211, 190);
+        ctx.lineTo(180, 200);
+    } else if (member == 5) {
+        ctx.moveTo(211, 190);
+        ctx.lineTo(240, 200);
+    } else if (member == 6) {
+        ctx.beginPath();
+        ctx.arc(240, 260, 5, 0, 2 * Math.PI);
+    } else if (member == 7) {
+        ctx.beginPath();
+        ctx.arc(180, 260, 5, 0, 2 * Math.PI);
+    } else if (member == 8) {
+        ctx.beginPath();
+        ctx.arc(240, 200, 4, 0, 2 * Math.PI);
+    } else if (member == 9) {
+        ctx.beginPath();
+        ctx.arc(180, 200, 4, 0, 2 * Math.PI);
+    } else if (member == 10) {
+        ctx.beginPath();
+        ctx.arc(203, 135, 0.3, 0, 2 * Math.PI);
+    } else if (member == 11) {
+        ctx.beginPath();
+        ctx.arc(217, 135, 0.3, 0, 2 * Math.PI);
+    } else if (member == 12) {
+        ctx.moveTo(209, 143);
+        ctx.lineTo(211, 143);
+    } else if (member == 13) {
+        ctx.beginPath();
+        ctx.arc(210, 153, 1, 3, 2 * Math.PI);
+    } else if (member == 14) {
+        ctx.moveTo(180, 175);
+        ctx.lineTo(240, 175);
+        document.getElementById("output").innerHTML = "You lose! :(";
+        guessedLetters += array[0].length + 1;
+    } 
+    if (guessedLetters == array[0].length) {
+        document.getElementById("output").innerHTML = "Congratulations you won!";
+        member = 15;
     }
+    ++member;
+    ctx.stroke();
 }
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
-ctx.fillRect(0,280,400,15);
-ctx.beginPath();
-ctx.lineWidth = 8;
-ctx.lineCap = "butt";
-ctx.moveTo(100,76);
-ctx.lineTo(100,290);
-ctx.moveTo(100,80);
-ctx.lineTo(210,80);
-ctx.moveTo(210,76);
-ctx.lineTo(210,120);
-ctx.moveTo(100,150);
-ctx.lineTo(150,80);
-ctx.stroke();
-                
